@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "model": {
+    "namespace": "https://kiegroup.org/dmn/_1C46E50D-2DEE-414D-B541-5999A3C3580B",
+    "name": "Verkaufspreis bestimmen"
+  },
+  "testCases": [
+    {
+      "name": "test-case-1",
+      "inputs": {
+        "List sales price": 100,
+        "Product group": "SERVICE"
+      },
+      "expectedOutputs": {
+        "Determine gross price": null,
+        "Determine VAT rate": null
+      }
+    },
+    {
+      "name": "test-case-2",
+      "inputs": {
+        "List sales price": 100,
+        "Product group": "BOOK"
+      },
+      "expectedOutputs": {
+        "Determine gross price": null,
+        "Determine VAT rate": null
+      }
+    }
+  ]
+}

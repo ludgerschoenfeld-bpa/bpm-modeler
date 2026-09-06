@@ -1,0 +1,6 @@
+# Product Idea Brief
+
+Project Name: BPM Modeler
+
+The BPM Modeler is for product teams, architects and domain experts who need to transform business‑process knowledge into innovative, maintainable digital products and use these BPMN/DMN/CMMN models seamlessly in common automation tools. It solves the challenge of designing flexible, transparent and standards‑based business process applications for new or adapted business models, enabling users to rapidly define and test process and decision logic, export consistent artifacts, and run them across platforms (Windows, macOS, Linux) while focusing on business‑model creativity rather than methodology; 
+Version 1 includes BPMN, DMN (DRD + Boxed Expressions), CMMN editors, PDF documentation/SVG export, DMN test cases and best‑practice support, while excluding orchestration layers and advanced integrations, with quality expectations around correctness, standards compliance, usability and maintainability, and risks mainly in library interoperability, DMN completeness and ensuring full process‑application coverage.

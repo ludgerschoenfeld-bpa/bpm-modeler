@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.bpmmodeler</groupId><artifactId>dmn-runner</artifactId><version>1.0.0</version>
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <drools.version>10.2.0</drools.version>
+    <httpclient5.version>5.6.4</httpclient5.version>
+    <httpcore5.version>5.4</httpcore5.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Keep every Jackson module on one maintained release line. -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId><artifactId>jackson-bom</artifactId><version>2.22.2</version>
+        <type>pom</type><scope>import</scope>
+      </dependency>
+      <!-- Saxon/XML Resolver brings these libraries transitively. Pin the supported security fixes together. -->
+      <dependency>
+        <groupId>org.apache.httpcomponents.client5</groupId><artifactId>httpclient5</artifactId><version>${httpclient5.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents.core5</groupId><artifactId>httpcore5</artifactId><version>${httpcore5.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents.core5</groupId><artifactId>httpcore5-h2</artifactId><version>${httpcore5.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.kie</groupId><artifactId>kie-dmn-core</artifactId><version>${drools.version}</version>
+      <exclusions>
+        <!-- The runner never deserializes XStream input. Excluding its optional
+             default XML parser removes the legacy MXParser attack surface. -->
+        <exclusion><groupId>io.github.x-stream</groupId><artifactId>mxparser</artifactId></exclusion>
+        <exclusion><groupId>xmlpull</groupId><artifactId>xmlpull</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+    <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></dependency>
+  </dependencies>
+  <build><plugins>
+    <plugin><artifactId>maven-compiler-plugin</artifactId><version>3.13.0</version><configuration><release>17</release></configuration></plugin>
+    <plugin><artifactId>maven-dependency-plugin</artifactId><version>3.7.1</version><executions><execution><id>copy-runtime-dependencies</id><phase>package</phase><goals><goal>copy-dependencies</goal></goals><configuration><outputDirectory>${project.basedir}/dist/lib</outputDirectory></configuration></execution></executions></plugin>
+  </plugins></build>
+</project>

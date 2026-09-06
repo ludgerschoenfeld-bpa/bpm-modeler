@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bpmc="https://bpm-modeler.local/schema/bpmn-color/1.0" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:bpml="https://bpm-modeler.local/schema/call-link/1.0" xmlns:spiffworkflow="http://spiffworkflow.org/bpmn/schema/1.0/core" id="gc3fea9b9-8660-4053-a11c-e8aceab697e8_Definition" targetNamespace="http://bpmn.io/schema/bpmn" exporter="5Minds Studio" exporterVersion="1">
+  <bpmn:collaboration id="Collaboration_1cidyxu" name="">
+    <bpmn:documentation>Beschreibung zur Collaboration</bpmn:documentation>
+    <bpmn:participant id="Participant_1nc45wx" name="Teilnehmer*in"/>
+    <bpmn:participant id="Participant_10bi6r7" name="PDA Seminaranmeldung abwickeln" processRef="Process_Proc_SeminaranmAbwickeln_1yykyi5"/>
+    <bpmn:participant id="Participant_11uzhfm" name="PDA: Warteliste zum Seminartermin verwalten (Sachbearbeiter*in)"/>
+    <bpmn:participant id="Participant_026q4h4" name="Trainer*in"/>
+    <bpmn:participant id="Participant_08zeu7j" name="Sachbearbeiter*in"/>
+    <bpmn:messageFlow id="Flow_0lm53qs" name="Seminaran-meldungsanfrage" sourceRef="Participant_1nc45wx" targetRef="Event_196cg4n">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Seminaranmeldungsanfrage eine(s)/(r) Teilnehmer(s)/(in) erhalten
+
+INPUT:
+Seminaranmeldung:
+- .Teilnehmer.kdNr -&gt; optional
+- .Teilnehmer.anrede -&gt; optional
+- .Teilnehmer.name -&gt; verpflichtend
+- .Teilnehmer.vorname -&gt; verpflichtend
+- .Teilnehmer.email -&gt; verpflichtend
+- .Teilnehmer.gebDatum -&gt; verpflichtend
+- .Teilnehmer.Adresse: (Rechnungsadresse)
+  - .unternehmensName -&gt; optional
+  - .strasse -&gt; verpflichtend
+  - .plz -&gt; verpflichtend
+  - .ort -&gt; verpflichtend
+-.Seminartermin: (Auswahl des Seminartermins des Seminars)
+  - .semTermNr -&gt; verpflichtend</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_182wygy" name="Benachrichtigung Platz auf Warteliste" sourceRef="Activity_1ml17vd" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Benachrichtigung "Platz auf Warteliste" an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+- Beziehungsmenge "wartet".warteposition -&gt; verpflichtend (Position Warteliste) 
+-Benachrichtigungstyp: "Platz_auf_Warteliste"</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_06s0ei2" name="Benachrichtigung &quot;Seminar-anmeldung nicht zustande gekommen&quot; (5Tage vor Seminarbeginn erreicht)" sourceRef="Activity_1ml17vd" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Benachrichtigung "Seminaranmeldung nicht zustande gekommen" an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+- Beziehungsmenge "wartet".warteposition -&gt; verpflichtend (Position Warteliste) 
+-Benachrichtigungstyp: "Seminaranmeldung_nicht_zustande_gekommen"</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_03bcdku" name="Benachrichtigung &quot;Seminar-anmeldung nicht zustande gekommen&quot; (Seminartermin nicht durchführbar)" sourceRef="Activity_1ml17vd" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Benachrichtigung "Seminaranmeldung nicht zustande gekommen (Seminartermin nicht durchführbar)" an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+- Beziehungsmenge "wartet".warteposition -&gt; verpflichtend (Position Warteliste) 
+-Benachrichtigungstyp: "Seminaranmeldung_nicht_zustande_gekommen"</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_1u2pov9" name="Benachrichtigung &quot;Seminar-anmeldung nicht zustande gekommen&quot; (Ablehnung freier Platz)" sourceRef="Activity_1ml17vd" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Benachrichtigung "Seminaranmeldung nicht zustande gekommen" an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+- Beziehungsmenge "wartet".warteposition -&gt; verpflichtend (Position Warteliste) 
+-Benachrichtigungstyp: "Seminaranmeldung_nicht_zustande_gekommen"</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_05cf01c" name="Seminar-anmeldung für Warteliste" sourceRef="Activity_1ml17vd" targetRef="Participant_11uzhfm">
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_1xkby7t" name="Benachrichtigung &quot;Bestätigung Seminar-anmeldung&quot;" sourceRef="Activity_1nq63fj" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Bestätigung Seminaranmeldung an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+-Benachrichtigungstyp: "Bestaetigung_Seminaranmeldung"</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_15xlh9c" name="Teilnehmer-bescheinigung/ Zertifikat" sourceRef="Activity_0aemy49" targetRef="Participant_1nc45wx">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Teilnahmebescheinigung/Zertifikat an Teilnehmer*in (Initiator) versenden
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Teilnehmer“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_13v4v55" name="Teilnahme-information" sourceRef="Participant_026q4h4" targetRef="Activity_0aemy49">
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:messageFlow id="Flow_0p9427q" name="Status &quot;Rechnung bezahlt&quot;" sourceRef="Activity_0aemy49" targetRef="Participant_08zeu7j">
+      <bpmn:documentation>FACHLICHE SCHNITTSTELLENOPERATION (im Rahmen des PDA-Servicevertrags)
+
+ZIEL:
+Status "Rechnung bezahlt" zum Seminar erhalten
+
+INPUT:
+- Entität „Seminaranmeldung“ (verpflichtend) 
+- Entität „Kunden“ (verpflichtend)
+- Entität „Seminar“ (verpflichtend)
+- Entität „Seminartermin“ (verpflichtend)
+ - .istRechnungBezahlt [Wert: true (="Ja")]-&gt; verpflichtend</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bpmc:color>orange</bpmc:color>
+      </bpmn:extensionElements>
+    </bpmn:messageFlow>
+    <bpmn:textAnnotation id="TextAnnotation_0qk1w0e">
+      <bpmn:text>PDA: Prozess "Seminar planen"</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0hqr0q1" associationDirection="None" sourceRef="Participant_026q4h4" targetRef="TextAnnotation_0qk1w0e"/>
+    <bpmn:correlationKey id="CorrelationKey_1bhsyxi" name="MainCorrelationKey"/>
+  </bpmn:collaboration>
+  <bpmn:message id="Msg_SemAnmAnfrEingeg" name="Msg_SemAnmAnfrEingeg"/>
+  <bpmn:signal id="Signal_SemAnmIstZuStornieren" name="Signal_SemAnmIstZuStornieren"/>
+  <bpmn:process id="Process_Proc_SeminaranmAbwickeln_1yykyi5" name="PDA Seminaranmeldung abwickeln" isExecutable="true">
+    <bpmn:documentation>## Top-Level-Prozessumfang
+| --- | --- |
+| Start des Prozesses | Die Seminaranmeldungsanfrage eines Teilnehmers ist eingegangen. |
+| Was umfasst der Inhalt des Prozesses? | Der Prozess umfasst die Verwaltung der Seminaranmeldung eines Teilnehmers zu einem bestimmten Termin und Seminarort. In diesem Kontext kann der Teilnehmer am Seminar teilgenommen haben oder das Seminar wurde storniert. Die Stornierung der Seminaranmeldung kann entweder durch den Teilnehmer oder durch das Trainingsunternehmen erfolgen. |
+| Was repräsentiert eine Instanz des Prozesses? | Jede Prozessinstanz steht für eine Seminaranmeldung eines Teilnehmers zu einem bestimmten Termin eines bestimmten Seminars. |
+| Auf welche Wege kann der Prozess enden? | - Das Seminar wurde zum Termin durchgeführt.&lt;br&gt;-  Die Seminaranmeldung wurde storniert.&lt;br&gt;-  Die Seminaranmeldung ist nicht zustande gekommen. |
+
+## Hauptaktivitäten im Top-Level
+### 1. Seminaranmeldung prüfen
+Kurze Inhaltsbeschreibung: Hier wird die Seminaranmeldung auf ihre Gültigkeit geprüft. Dies umfasst, dass alle erforderlichen Daten für die Anmeldung vorhanden sind, und auch das Prüfen der Verfügbarkeit des Teilnehmerplatzes.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Teilnehmerplatz verfügbar | Seminaranmeldung verbuchen |
+| Teilnehmerplatz nicht verfügbar | Seminaranmeldung in Warteliste verwalten |
+| Unvollständige Seminaranmeldung vorhanden | Seminaranmeldung korrigieren |
+### 2. Seminaranmeldung in Warteliste verwalten
+Kurze Inhaltsbeschreibung: Falls kein Teilnehmerplatz verfügbar ist, wird der Teilnehmer mit seiner Seminaranmeldung auf der Warteliste vorgemerkt.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung nicht zustande gekommen | End Event »Seminaranmeldung nicht zustande gekommen« |
+| Seminarplatz akzeptiert | Seminaranmeldung verbuchen |
+### 3. Seminaranmeldung verbuchen
+Kurze Inhaltsbeschreibung: Die Seminaranmeldung des Teilnehmers wird für das Seminar erfasst.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung gespeichert | Seminaranmeldung ändern UND Seminaranmeldung nachbereiten |
+### 4. Seminaranmeldung korrigieren
+Kurze Inhaltsbeschreibung: Im Fall von unvollständigen Daten in der Seminaranmeldung muss diese vom Teilnehmer vervollständigt werden.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung korrigiert | Seminaranmeldung prüfen |
+### 5. Seminaranmeldung ändern
+Kurze Inhaltsbeschreibung: Die Seminaranmeldung kann in folgenden Fall verändert werden:
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung durch Teilnehmer storniert | Seminaranmeldung stornieren |
+| Stornierung der Seminaranmeldung nicht mehr möglich | End Event »Seminar wurde zum Termin durchgeführt« |
+### 6. Seminaranmeldung stornieren
+Kurze Inhaltsbeschreibung: Hier wird beschrieben, wie mit der Stornierung der Seminaranmeldung umgegangen wird.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung wurde storniert | End Event »Seminaranmeldung wurde storniert« |
+### 7. Seminaranmeldung nachbereiten
+Kurze Inhaltsbeschreibung: Nach der Teilnahme am Seminar werden hier die abschließend durchzuführenden Tätigkeiten zur Seminaranmeldung beschrieben.
+| Endereignis | Nächste Top-Level-Aktivität/Endereignis |
+| --- | --- |
+| Seminaranmeldung nachbereitet | End Event »Seminar wurde zum Termin durchgeführt« |</bpmn:documentation>
+    <bpmn:dataObject id="anmeldungStatus" name="Anmeldungsstatus"/>
+    <bpmn:dataObject id="teilnahmebescheinigung" name="Teilnahmebescheinigung"/>
+    <bpmn:dataObject id="seminaranmeldung" name="Seminaranmeldung"/>
+    <bpmn:dataObjectReference id="DataObjectReference_0g2upnq" name="Anmeldungsstatus" dataObjectRef="anmeldungStatus"/>
+    <bpmn:dataObjectReference id="DataObjectReference_1qurqa2" name="Seminaranmeldung" dataObjectRef="seminaranmeldung"/>
+    <bpmn:dataObjectReference id="DataObjectReference_0ogmsg2" name="Teilnahmebescheinigung" dataObjectRef="teilnahmebescheinigung"/>
+    <bpmn:intermediateCatchEvent id="Event_1rhsdpp" name="Seminaranmeldung zu prüfen">
+      <bpmn:outgoing>Flow_0hsnt5l</bpmn:outgoing>
+      <bpmn:linkEventDefinition id="LinkEventDefinition_0up033v" name="Link_SeminaranmZuPruefen"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="Gateway_04ity1f" name="Status Seminaranmeldung?">
+      <bpmn:incoming>Flow_09wsvz9</bpmn:incoming>
+      <bpmn:outgoing>Flow_05tombx</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02k7w28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0w1bclt</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Activity_1ml17vd" name="Seminaranmeldung in Warteliste verwalten">
+      <bpmn:incoming>Flow_0w1bclt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r6ob7b</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0hsnt5l" sourceRef="Event_1rhsdpp" targetRef="Activity_0zgt77d"/>
+    <bpmn:sequenceFlow id="Flow_09wsvz9" sourceRef="Activity_0zgt77d" targetRef="Gateway_04ity1f"/>
+    <bpmn:sequenceFlow id="Flow_05tombx" name="Teilnehmerplatz verfügbar" sourceRef="Gateway_04ity1f" targetRef="Activity_1nq63fj">
+      <bpmn:conditionExpression>anmeldungStatus["status"]=="TEILNEHMERPLATZ_VERFUEGBAR"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_02k7w28" name="Unvollständige Seminar-anmeldung vorhanden" sourceRef="Gateway_04ity1f" targetRef="Activity_030v5ud">
+      <bpmn:conditionExpression>anmeldungStatus["status"]=="UNVOLLSTAENDIG_SEMINARANMELDUNG_VORHANDEN"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0w1bclt" name="Teilnehmerplatz nicht verfügbar" sourceRef="Gateway_04ity1f" targetRef="Activity_1ml17vd">
+      <bpmn:conditionExpression>anmeldungStatus["status"]=="TEILNEHMERPLATZ_NICHT_VERFUEGBAR"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ilg8ak" sourceRef="Activity_030v5ud" targetRef="Event_1fj0h1u"/>
+    <bpmn:sequenceFlow id="Flow_0r6ob7b" sourceRef="Activity_1ml17vd" targetRef="Gateway_0lv5p59"/>
+    <bpmn:sequenceFlow id="Flow_184kjlu" name="Seminarplatz akzeptiert" sourceRef="Gateway_0lv5p59" targetRef="Activity_1nq63fj">
+      <bpmn:conditionExpression>anmeldungStatus["status"]=="WARTELISTE_SEMINARPLATZ_AKZEPTIERT"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0664ucv" sourceRef="Activity_1nq63fj" targetRef="Activity_0aemy49"/>
+    <bpmn:sequenceFlow id="Flow_1rdh60b" name="Seminar-anmeldung nicht zustande gekommen" sourceRef="Gateway_0lv5p59" targetRef="Event_1vcgpu2">
+      <bpmn:conditionExpression>anmeldungStatus["status"]=="WARTELISTE_SEMINARPLATZ_NICHT_ZUSTANDEGEKOMMEN"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:callActivity id="Activity_0zgt77d" name="Seminaranmeldung prüfen" calledElement="Subproz_SeminaranmeldungPruefen">
+      <bpmn:documentation>Beschreibung zu Seminaranmeldung prüfen</bpmn:documentation>
+      <bpmn:extensionElements>
+        <spiffworkflow:preScript>seminaranmeldungsanfrage={
+  "course": msgInp_seminaranmeldungsanfrage["course"],
+  "participant": msgInp_seminaranmeldungsanfrage["participant"],
+  "invoice": msgInp_seminaranmeldungsanfrage["invoice"]
+}</spiffworkflow:preScript>
+        <spiffworkflow:postScript>seminaranmeldung
+anmeldungStatus</spiffworkflow:postScript>
+        <bpml:callActivityLink path="C:\Users\ludge\Documents\BPM Modeler\test\bpmn\PDA Seminarverwaltung\01_BPMN_Fachprozess\PDA_SeminaranmeldungAbwickeln_DetailLevel-1.bpmn"/>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hsnt5l</bpmn:incoming>
+      <bpmn:incoming>Flow_11qnzrm</bpmn:incoming>
+      <bpmn:outgoing>Flow_09wsvz9</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_07dlujz">
+        <bpmn:targetRef>DataObjectReference_1qurqa2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0z41gnf">
+        <bpmn:targetRef>DataObjectReference_0g2upnq</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_11qnzrm" sourceRef="Event_196cg4n" targetRef="Activity_0zgt77d"/>
+    <bpmn:startEvent id="Event_196cg4n" name="Seminaranmeldungsanfrage eines Teilnehmers eingegangen">
+      <bpmn:outgoing>Flow_11qnzrm</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1wmpkyf" messageRef="Msg_SemAnmAnfrEingeg">
+        <bpmn:extensionElements>
+          <spiffworkflow:messageVariable>msgInp_seminaranmeldungsanfrage</spiffworkflow:messageVariable>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_0lv5p59" name="Status Warteliste?">
+      <bpmn:incoming>Flow_0r6ob7b</bpmn:incoming>
+      <bpmn:outgoing>Flow_184kjlu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1rdh60b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="Activity_1nq63fj" name="seminaranmeldung verbuchen" calledElement="Subproc_SeminaranmVerbuchen">
+      <bpmn:documentation>Beschreibung zu Seminaranmeldung verbuchen</bpmn:documentation>
+      <bpmn:extensionElements>
+        <spiffworkflow:preScript>seminaranmeldung</spiffworkflow:preScript>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05tombx</bpmn:incoming>
+      <bpmn:incoming>Flow_184kjlu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0664ucv</bpmn:outgoing>
+      <bpmn:property id="Property_0nx73o6" name="__targetRef_placeholder"/>
+      <bpmn:dataInputAssociation id="DataInputAssociation_10844nm">
+        <bpmn:sourceRef>DataObjectReference_1qurqa2</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0nx73o6</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:callActivity>
+    <bpmn:intermediateThrowEvent id="Event_1fj0h1u" name="Seminaranmeldung zu prüfen">
+      <bpmn:incoming>Flow_0ilg8ak</bpmn:incoming>
+      <bpmn:linkEventDefinition id="LinkEventDefinition_1e96h9d" name="Link_SeminaranmZuPruefen"/>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:task id="Activity_030v5ud" name="Seminaranmeldung korrigieren">
+      <bpmn:incoming>Flow_02k7w28</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ilg8ak</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1mcjx9o" sourceRef="Activity_0aemy49" targetRef="Event_0una8vo"/>
+    <bpmn:callActivity id="Activity_0aemy49" name="Seminaranmeldung nachbereiten" calledElement="Subproz_SeminaranmeldungNachb">
+      <bpmn:documentation>Beschreibung zu Seminaranmeldung nachbereiten</bpmn:documentation>
+      <bpmn:extensionElements>
+        <spiffworkflow:preScript>seminaranmeldung</spiffworkflow:preScript>
+        <spiffworkflow:postScript>teilnahmebescheinigung</spiffworkflow:postScript>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0664ucv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mcjx9o</bpmn:outgoing>
+      <bpmn:property id="Property_1lasgq0" name="__targetRef_placeholder"/>
+      <bpmn:dataInputAssociation id="DataInputAssociation_0xtt9lk">
+        <bpmn:sourceRef>DataObjectReference_1qurqa2</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1lasgq0</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1s8ss3v">
+        <bpmn:targetRef>DataObjectReference_0ogmsg2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_1vcgpu2" name="Seminar-anmeldung nicht zustande gekommen">
+      <bpmn:incoming>Flow_1rdh60b</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0una8vo" name="Seminar wurde zum Termin durchgeführt">
+      <bpmn:incoming>Flow_1mcjx9o</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
+      <bpmndi:BPMNShape id="Participant_1kzdo2a_di" bpmnElement="Participant_1nc45wx" isHorizontal="true">
+        <dc:Bounds x="-14" y="-220" width="1754" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_10bi6r7_di" bpmnElement="Participant_10bi6r7" isHorizontal="true">
+        <dc:Bounds x="-14" y="10" width="2104" height="920"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0g2upnq_di" bpmnElement="DataObjectReference_0g2upnq">
+        <dc:Bounds x="582" y="95" width="36" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="555" y="152" width="90" height="14"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_1qurqa2_di" bpmnElement="DataObjectReference_1qurqa2">
+        <dc:Bounds x="1072" y="25" width="36" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1048" y="82" width="84" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0ogmsg2_di" bpmnElement="DataObjectReference_0ogmsg2">
+        <dc:Bounds x="1752" y="155" width="36" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1721" y="106" width="86" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1xx80iu_di" bpmnElement="Event_1rhsdpp">
+        <dc:Bounds x="272" y="242" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="248" y="288" width="84" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04ity1f_di" bpmnElement="Gateway_04ity1f" isMarkerVisible="true">
+        <dc:Bounds x="541" y="365" width="50" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="534" y="310" width="84" height="40"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ml17vd_di" bpmnElement="Activity_1ml17vd">
+        <dc:Bounds x="716" y="700" width="100" height="80"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05u1btz_di" bpmnElement="Activity_0zgt77d">
+        <dc:Bounds x="366" y="350" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1g8os7j_di" bpmnElement="Event_196cg4n">
+        <dc:Bounds x="102" y="372" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="75" y="415" width="90" height="53"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0lv5p59_di" bpmnElement="Gateway_0lv5p59" isMarkerVisible="true">
+        <dc:Bounds x="1101" y="715" width="50" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1161" y="733" width="90" height="14"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rwjznt_di" bpmnElement="Activity_1nq63fj">
+        <dc:Bounds x="1336" y="350" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gtiih6_di" bpmnElement="Event_1fj0h1u">
+        <dc:Bounds x="1012" y="562" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="988" y="605" width="84" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_030v5ud_di" bpmnElement="Activity_030v5ud">
+        <dc:Bounds x="870" y="540" width="100" height="80"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kivito_di" bpmnElement="Activity_0aemy49">
+        <dc:Bounds x="1590" y="350" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1vcgpu2_di" bpmnElement="Event_1vcgpu2">
+        <dc:Bounds x="1962" y="812" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1939" y="749" width="82" height="53"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0una8vo_di" bpmnElement="Event_0una8vo">
+        <dc:Bounds x="1962" y="372" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1943" y="415" width="75" height="40"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0hsnt5l_di" bpmnElement="Flow_0hsnt5l">
+        <di:waypoint x="308" y="260"/>
+        <di:waypoint x="337" y="260"/>
+        <di:waypoint x="337" y="390"/>
+        <di:waypoint x="366" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09wsvz9_di" bpmnElement="Flow_09wsvz9">
+        <di:waypoint x="466" y="390"/>
+        <di:waypoint x="541" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05tombx_di" bpmnElement="Flow_05tombx">
+        <di:waypoint x="591" y="390"/>
+        <di:waypoint x="1336" y="390"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="929" y="346" width="78" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02k7w28_di" bpmnElement="Flow_02k7w28">
+        <di:waypoint x="566" y="415"/>
+        <di:waypoint x="566" y="580"/>
+        <di:waypoint x="870" y="580"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="443" width="73" height="53"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0w1bclt_di" bpmnElement="Flow_0w1bclt">
+        <di:waypoint x="566" y="415"/>
+        <di:waypoint x="566" y="740"/>
+        <di:waypoint x="716" y="740"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="567" y="646" width="78" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ilg8ak_di" bpmnElement="Flow_0ilg8ak">
+        <di:waypoint x="970" y="580"/>
+        <di:waypoint x="1012" y="580"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r6ob7b_di" bpmnElement="Flow_0r6ob7b">
+        <di:waypoint x="816" y="740"/>
+        <di:waypoint x="1101" y="740"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_184kjlu_di" bpmnElement="Flow_184kjlu">
+        <di:waypoint x="1126" y="715"/>
+        <di:waypoint x="1126" y="420"/>
+        <di:waypoint x="1336" y="420"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1143" y="646" width="65" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0664ucv_di" bpmnElement="Flow_0664ucv">
+        <di:waypoint x="1436" y="390"/>
+        <di:waypoint x="1590" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rdh60b_di" bpmnElement="Flow_1rdh60b">
+        <di:waypoint x="1126" y="765"/>
+        <di:waypoint x="1126" y="830"/>
+        <di:waypoint x="1962" y="830"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1147" y="763" width="82" height="53"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11qnzrm_di" bpmnElement="Flow_11qnzrm">
+        <di:waypoint x="138" y="390"/>
+        <di:waypoint x="366" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mcjx9o_di" bpmnElement="Flow_1mcjx9o">
+        <di:waypoint x="1690" y="390"/>
+        <di:waypoint x="1962" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_16gmn1d_di" bpmnElement="Participant_11uzhfm" isHorizontal="true">
+        <dc:Bounds x="-14" y="1020" width="1134" height="60"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0o7s99k_di" bpmnElement="Participant_026q4h4" isHorizontal="true">
+        <dc:Bounds x="1790" y="-220" width="300" height="60"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0tszd1u_di" bpmnElement="Participant_08zeu7j" isHorizontal="true">
+        <dc:Bounds x="1160" y="1020" width="930" height="60"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qk1w0e_di" bpmnElement="TextAnnotation_0qk1w0e">
+        <dc:Bounds x="1800" y="-280" width="99.99999825812911" height="54.79452054794521"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_07dlujz_di" bpmnElement="DataOutputAssociation_07dlujz">
+        <di:waypoint x="426" y="350"/>
+        <di:waypoint x="426" y="45"/>
+        <di:waypoint x="1072" y="45"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0z41gnf_di" bpmnElement="DataOutputAssociation_0z41gnf">
+        <di:waypoint x="460" y="350"/>
+        <di:waypoint x="460" y="120"/>
+        <di:waypoint x="582" y="120"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_10844nm_di" bpmnElement="DataInputAssociation_10844nm">
+        <di:waypoint x="1108" y="71"/>
+        <di:waypoint x="1343" y="351"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_0xtt9lk_di" bpmnElement="DataInputAssociation_0xtt9lk">
+        <di:waypoint x="1108" y="50"/>
+        <di:waypoint x="1600" y="50"/>
+        <di:waypoint x="1609" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1s8ss3v_di" bpmnElement="DataOutputAssociation_1s8ss3v">
+        <di:waypoint x="1664" y="350"/>
+        <di:waypoint x="1752" y="203"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lm53qs_di" bpmnElement="Flow_0lm53qs" color:border-color="#e65100">
+        <di:waypoint x="120" y="-160"/>
+        <di:waypoint x="120" y="372"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="27" y="-114" width="86" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_182wygy_di" bpmnElement="Flow_182wygy" color:border-color="#e65100">
+        <di:waypoint x="720" y="702"/>
+        <di:waypoint x="720" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="617" y="-147" width="86" height="40"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06s0ei2_di" bpmnElement="Flow_06s0ei2" color:border-color="#e65100">
+        <di:waypoint x="750" y="700"/>
+        <di:waypoint x="750" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="687" y="-103" width="86" height="106"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03bcdku_di" bpmnElement="Flow_03bcdku" color:border-color="#e65100">
+        <di:waypoint x="790" y="700"/>
+        <di:waypoint x="790" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="777" y="-103" width="86" height="106"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u2pov9_di" bpmnElement="Flow_1u2pov9" color:border-color="#e65100">
+        <di:waypoint x="810" y="701"/>
+        <di:waypoint x="810" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="867" y="-147" width="86" height="93"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05cf01c_di" bpmnElement="Flow_05cf01c" color:border-color="#e65100">
+        <di:waypoint x="766" y="780"/>
+        <di:waypoint x="766" y="1020"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="685" y="950" width="71" height="40"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xkby7t_di" bpmnElement="Flow_1xkby7t" color:border-color="#e65100">
+        <di:waypoint x="1386" y="350"/>
+        <di:waypoint x="1386" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="1287" y="-154" width="86" height="53"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15xlh9c_di" bpmnElement="Flow_15xlh9c" color:border-color="#e65100">
+        <di:waypoint x="1640" y="350"/>
+        <di:waypoint x="1640" y="-160"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="1562" y="-147" width="75" height="40"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13v4v55_di" bpmnElement="Flow_13v4v55" color:border-color="#e65100">
+        <di:waypoint x="1840" y="-160"/>
+        <di:waypoint x="1840" y="95"/>
+        <di:waypoint x="1670" y="95"/>
+        <di:waypoint x="1670" y="350"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="1782" y="-141" width="55" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p9427q_di" bpmnElement="Flow_0p9427q" color:border-color="#e65100">
+        <di:waypoint x="1640" y="430"/>
+        <di:waypoint x="1640" y="1020"/>
+        <bpmndi:BPMNLabel color:color="#e65100">
+          <dc:Bounds x="1545" y="966" width="89" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0hqr0q1_di" bpmnElement="Association_0hqr0q1">
+        <di:waypoint x="1961" y="-220"/>
+        <di:waypoint x="1900" y="-245"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
